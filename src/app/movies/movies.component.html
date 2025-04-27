@@ -1,0 +1,34 @@
+<div class="movies-container">
+    <h1>Trending Movies Today</h1>
+  
+    @if (loading) {
+      <div class="loading">Loading movies...</div>
+    }
+    
+    @if (error) {
+      <div class="error">
+        Error: {{ error }}
+      </div>
+    }
+  
+    @if (!loading && !error) {
+      <div class="movies-grid">
+        @for (movie of movies; track movie.id) {
+          <div class="movie-card">
+            @if (movie.poster_path) {
+              <img 
+                [src]="'https://image.tmdb.org/t/p/w300' + movie.poster_path" 
+                [alt]="movie.title"
+                class="movie-poster">
+            }
+            <div class="movie-info">
+              <h2>{{ movie.title }}</h2>
+              <p class="release-date">Released: {{ movie.release_date }}</p>
+              <p class="rating">Rating: {{ movie.vote_average }}/10</p>
+              <p class="overview">{{ movie.overview }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>

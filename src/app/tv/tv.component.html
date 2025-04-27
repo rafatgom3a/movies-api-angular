@@ -1,0 +1,42 @@
+<div class="tv-container">
+    <h1>Trending TV Shows Today</h1>
+  
+    @if (loading) {
+      <div class="loading">Loading TV shows...</div>
+    }
+    
+    @if (error) {
+      <div class="error">
+        Error: {{ error }}
+      </div>
+    }
+  
+    @if (!loading && !error) {
+      <div class="tv-grid">
+        @for (show of trendingTvShows; track show.id) {
+          <div class="tv-card">
+            @if (show.poster_path) {
+              <img 
+                [src]="'https://image.tmdb.org/t/p/w300' + show.poster_path" 
+                [alt]="show.name"
+                class="tv-poster">
+            }
+            <div class="tv-info">
+              <h2>{{ show.name }}</h2>
+              <div class="meta">
+                <span class="first-air-date">
+                  @if (show.first_air_date) {
+                    First aired: {{ formatDate(show.first_air_date) }}
+                  }
+                </span>
+                <span class="vote-average">
+                  ★ {{ show.vote_average | number:'1.1-1' }}
+                </span>
+              </div>
+              <p class="overview">{{ show.overview }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>

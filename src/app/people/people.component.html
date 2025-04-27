@@ -1,0 +1,35 @@
+<div class="people-container">
+  <h1>Trending People Today</h1>
+
+  @if (loading) {
+    <div class="loading">Loading people...</div>
+  }
+  
+  @if (error) {
+    <div class="error">
+      Error: {{ error }}
+    </div>
+  }
+
+  @if (!loading && !error) {
+    <div class="people-grid">
+      @for (person of trendingPeople; track person.id) {
+        <div class="person-card">
+          @if (person.profile_path) {
+            <img 
+              [src]="'https://image.tmdb.org/t/p/w300' + person.profile_path" 
+              [alt]="person.name"
+              class="person-image">
+          } @else {
+            <div class="no-image">No Image</div>
+          }
+          <div class="person-info">
+            <h2>{{ person.name }}</h2>
+            <p class="known-for">Known for: {{ getKnownForTitles(person) }}</p>
+            <p class="popularity">Popularity: {{ person.popularity | number:'1.1-1' }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

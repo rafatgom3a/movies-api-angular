@@ -1,0 +1,42 @@
+<div class="all-container">
+    <h1>Trending Today</h1>
+  
+    @if (loading) {
+      <div class="loading">Loading...</div>
+    }
+    
+    @if (error) {
+      <div class="error">
+        Error: {{ error }}
+      </div>
+    }
+  
+    @if (!loading && !error) {
+      <div class="all-grid">
+        @for (item of trendingData; track item.id) {
+          <div class="all-card">
+            @if (item.poster_path) {
+              <img 
+                class="all-poster"
+                [src]="'https://image.tmdb.org/t/p/w300' + item.poster_path" 
+                [alt]="item.title || item.name">
+            }
+            <div class="all-info">
+              <span class="media-type-badge">{{ item.media_type | uppercase }}</span>
+              <h2>{{ item.title || item.name }}</h2>
+              @if (item.release_date || item.first_air_date) {
+                <p class="release-date">
+                  {{ (item.release_date || item.first_air_date) | date }}
+                </p>
+              }
+              <p class="rating">
+                Rating: {{ item.vote_average }}/10
+              </p>
+              <p class="overview">{{ (item.overview | slice:0:100) + (item.overview.length > 100 ? '...' : '') }}</p>
+              <p><strong>Popularity:</strong> {{ item.popularity | number:'1.0-0' }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
